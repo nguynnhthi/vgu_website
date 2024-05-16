@@ -1,4 +1,5 @@
-import Carousel from "./carousel";
+import HeroSection from "./herosection";
+import ServerHeroSection from "./serverherosection";
 import CtaSection from "../components/ctasection";
 import Footer from "../components/footer";
 import Header from "../components/header";
@@ -11,7 +12,7 @@ export default function Page() {
     return(
         <main className="flex min-h-screen flex-col">
             <Header/>
-            <Carousel/>
+            <ServerHeroSection id="landing-page-carousel"/>
             <StudyPrograms />
             <VguInFigures />
             <VguToday />

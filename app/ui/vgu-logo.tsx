@@ -13,7 +13,7 @@ export default function VGULogo() {
       <Link href={'/dashboard'}>
         {' '}
         <Image
-          src="/vgu-logo.png"
+          src="http://localhost:8055/assets/ddbfcbbe-e342-48b1-9eba-213da2fbdead"
           width={261}
           height={89}
           className="hidden md:block"

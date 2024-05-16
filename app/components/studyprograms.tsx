@@ -1,7 +1,25 @@
 import Image from 'next/image';
 import { sans } from '../ui/fonts';
+import directus from '@/lib/directus';
+import { readItems } from '@directus/sdk';
+import { notFound } from 'next/navigation';
 
-export default function StudyPrograms() {
+async function getStudyPrograms() {
+  try {
+    const studyPrograms = await directus.request(
+      readItems('study_program', {
+        fields: ['name'],
+        sort: ['order'],
+      })
+    );
+    return studyPrograms;
+  } catch (error) {
+    notFound();
+  }
+}
+
+export default async function StudyPrograms() {
+  const studyPrograms = await getStudyPrograms();
   return (
     <div className={`${sans.className} mt-12`}>
       <div className="mb-12">
@@ -18,14 +36,14 @@ export default function StudyPrograms() {
       <div id="programlist" className="mx-auto grid w-9/12 grid-cols-4 gap-6 ">
         <div className=" max-w-xs overflow-hidden rounded shadow-lg">
           <Image
-            src="/girl1.jpeg"
+            src={`${directus.url}assets/f020a14a-f1e3-40ef-ad5e-712ee670fa11`}
             width={300}
             height={300}
             alt="Placeholder image"
             className="card-image border-b-vgu-orange block w-full border-b-2"
           />
           <div className="px-6 py-4">
-            <div className="mb-2 text-2xl font-bold">Bachelor Programs</div>
+            <div className="mb-2 text-2xl font-bold">{studyPrograms[0].name}</div>
             <p className="text-base text-gray-700">
               Lorem ipsum dolor sit amet, consectetur adipisicing elit.
               Voluptatibus quia, nulla! Maiores et perferendis eaque,
@@ -40,14 +58,14 @@ export default function StudyPrograms() {
         </div>
         <div className="max-w-xs overflow-hidden rounded shadow-lg">
           <Image
-            src="/girl2.jpeg"
+            src={`${directus.url}assets/0b7e6411-181f-4334-a7d7-bf11dd984941`}
             width={300}
             height={435}
             alt="Placeholder image"
             className="card-image border-b-vgu-orange block w-full border-b-2"
           />
           <div className="px-6 py-4">
-            <div className="mb-2 text-2xl font-bold">Master Programs</div>
+            <div className="mb-2 text-2xl font-bold">{studyPrograms[1].name}</div>
             <p className="text-base text-gray-700">
               Lorem ipsum dolor sit amet, consectetur adipisicing elit.
               Voluptatibus quia, nulla! Maiores et perferendis eaque,
@@ -63,14 +81,14 @@ export default function StudyPrograms() {
         </div>
         <div className="max-w-xs overflow-hidden rounded shadow-lg">
           <Image
-            src="/girl3.jpeg"
+            src={`${directus.url}assets/4cc19413-d16e-4d54-ad80-a682c1eb61fb`}
             width={300}
             height={435}
             alt="Placeholder image"
             className="card-image border-b-vgu-orange block w-full border-b-2"
           />
           <div className="px-6 py-4">
-            <div className="mb-2 text-2xl font-bold">Exchange Programs</div>
+            <div className="mb-2 text-2xl font-bold">{studyPrograms[2].name}</div>
             <p className="text-base text-gray-700">
               Lorem ipsum dolor sit amet, consectetur adipisicing elit.
               Voluptatibus quia, nulla! Maiores et perferendis eaque,
@@ -85,14 +103,14 @@ export default function StudyPrograms() {
         </div>
         <div className="max-w-xs overflow-hidden rounded shadow-lg">
           <Image
-            src="/girl4.jpeg"
+            src={`${directus.url}assets/91600160-b900-4510-ab03-6d6fec08a786`}
             width={300}
             height={435}
             alt="Placeholder image"
             className="card-image border-b-vgu-orange block w-full border-b-2"
           />
           <div className="px-6 py-4">
-            <div className="mb-2 text-2xl font-bold">PHD Programs</div>
+            <div className="mb-2 text-2xl font-bold">{studyPrograms[3].name}</div>
             <p className="text-base text-gray-700">
               Lorem ipsum dolor sit amet, consectetur adipisicing elit.
               Voluptatibus quia, nulla! Maiores et perferendis eaque,

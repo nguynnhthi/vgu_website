@@ -1,7 +1,33 @@
 import Image from 'next/image';
 import { sans } from '../ui/fonts';
+import directus from '@/lib/directus';
+import { readItems } from '@directus/sdk';
+import { notFound } from 'next/navigation';
+
 <script src="../path/to/countup.min.js"></script>
-export default function VguInFigures() {
+
+async function getFigures() {
+  try {
+    const figures = await directus.request(
+      readItems('vgu_in_numbers', {
+        filter: {
+          status: {
+            _eq: 'published'
+          }
+        },
+        fields: ['figure', 'content', 'order'],
+        sort: ['order'],
+      })
+    );
+    return figures;
+  } catch (error) {
+    notFound();
+  }
+}
+
+
+export default async function VguInFigures() {
+  const figures = await getFigures();
   return (
     <div className={`${sans.className} mt-12`}>
       <div className="mb-12">
@@ -23,24 +49,20 @@ export default function VguInFigures() {
           />
         </div>
         <div className="col-span-2 mx-6 flex flex-col justify-between">
-          <div>
-            <p className="from-vgu-orange to-vgu-yellow bg-gradient-to-r bg-clip-text text-7xl text-transparent">
-              1700
-            </p>
-            <p className="text-xl">approximate number of students</p>
-          </div>
-          <div>
-            <p className="text-vgu-darkblue text-6xl">200</p>
-            <p>millions of dollars investment in infrastructure</p>
-          </div>
-          <div>
-            <p className="text-vgu-darkblue text-6xl">71</p>
-            <p>technical laboratories</p>
-          </div>
-          <div>
-            <p className="text-vgu-darkblue text-6xl">20</p>
-            <p>study programs</p>
-          </div>
+          {figures.map((item) => (
+            (item.order === 100) ? (<div>
+                <p className="from-vgu-orange to-vgu-yellow bg-gradient-to-r bg-clip-text text-7xl text-transparent">
+                  {item.figure}
+                </p>
+                <p className="text-xl">{item.content}</p>
+                </div>)
+            : (
+              <div>
+                <p className="text-vgu-darkblue text-6xl">{item.figure}</p>
+                <p>{item.content}</p>
+              </div>
+            )
+          ))}
         </div>
       </div>
     </div>

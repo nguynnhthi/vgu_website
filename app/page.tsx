@@ -1,4 +1,4 @@
-import { default as Carousel } from './home/carousel';
+import ServerHeroSection from "./home/serverherosection";
 import CtaSection from './components/ctasection';
 import Footer from './components/footer';
 import { default as Header } from './components/header';
@@ -6,12 +6,20 @@ import StudyPrograms from './components/studyprograms';
 import VguInFigures from './components/vguinfigures';
 import VguPartners from './components/vgupartners';
 import VguToday from './components/vgutoday';
+import directus from '@/lib/directus';
+import { readItems } from '@directus/sdk';
 
-export default function Page() {
+// async function getGlobals() {
+// 	return directus.request(readItems('global'));
+// }
+
+export default async function Page() {
+//  const global = await getGlobals();
   return (
+    
     <main className="flex min-h-screen flex-col">
       <Header />
-      <Carousel />
+      <ServerHeroSection id="landing-page-carousel"/>
       <StudyPrograms />
       <VguInFigures />
       <VguToday />

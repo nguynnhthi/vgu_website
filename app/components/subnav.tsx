@@ -1,15 +1,38 @@
 import Link from 'next/link';
-import { subNavLinks } from '../lib/data';
 import { sans } from '../ui/fonts';
+import directus from '@/lib/directus';
+import { readItems } from '@directus/sdk';
+import { notFound } from 'next/navigation';
 
-export default function SubNav() {
+async function getNavigationItems(type: string) {
+	try {
+		const navItems = await directus.request(
+			readItems('navigation', {
+				filter: {
+          type: {
+            _eq: type
+          }
+        },
+        fields: ['name', 'path'],
+        sort: ['order'],
+			})
+		);
+
+		return navItems;
+	} catch (error) {
+		notFound();
+	}
+}
+
+export default async function SubNav() {
+  const subnav = await getNavigationItems("sub-nav");
   return (
     <div
       className={`${sans.className} bg-vgu-orange mb-2 flex items-center justify-between rounded-l-lg py-1`}
     >
       <div className="pr-4">
         <ul className="hidden text-white md:flex">
-          {subNavLinks.map(({ name, path }) => (
+          {subnav.map(({ name, path }) => (
             <Link href={path}>
               <li
                 key={name}
