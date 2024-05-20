@@ -1,29 +1,11 @@
 import Image from 'next/image';
 import { sans } from '../ui/fonts';
+import { getFigures } from '../lib/utils';
 import directus from '@/lib/directus';
-import { readItems } from '@directus/sdk';
-import { notFound } from 'next/navigation';
 
 <script src="../path/to/countup.min.js"></script>
 
-async function getFigures() {
-  try {
-    const figures = await directus.request(
-      readItems('vgu_in_numbers', {
-        filter: {
-          status: {
-            _eq: 'published'
-          }
-        },
-        fields: ['figure', 'content', 'order'],
-        sort: ['order'],
-      })
-    );
-    return figures;
-  } catch (error) {
-    notFound();
-  }
-}
+
 
 
 export default async function VguInFigures() {
@@ -42,7 +24,7 @@ export default async function VguInFigures() {
       <div className="mx-auto grid w-8/12 grid-cols-7 ">
         <div className="h-500 relative col-span-5">
           <Image
-            src="/vgulibrary.jpeg"
+            src={`${directus.url}assets/e9e22c0a-3cb8-43cc-94bf-e9f8cbfaa9ff`}
             alt="VGU Library Image"
             width={750}
             height={750}

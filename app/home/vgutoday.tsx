@@ -1,76 +1,8 @@
 import Image from 'next/image';
 import { sans } from '../ui/fonts';
 import directus from '@/lib/directus';
-import { readItems } from '@directus/sdk';
-import { notFound } from 'next/navigation';
+import { getEvents, getNews, convertDateFormat, removeHtmlTags } from '../lib/utils';
 
-async function getEvents() {
-  try {
-    const events = await directus.request(
-      readItems('events', {
-        filter: {
-          status: {
-            _eq: 'published'
-          }
-        },
-        fields: ['id', 'title', 'date', 'start_time', 'end_time'],
-        sort: ['date', 'start_time'],
-        limit: 3
-      })
-    );
-    return events;
-  } catch (error) {
-    notFound();
-  }
-}
-
-async function getNews() {
-  try {
-    const news = await directus.request(
-      readItems('posts', {
-        filter: {
-          status: {
-            _eq: 'published'
-          }
-        },
-        fields: ['slug', 'title', { image: ['filename_disk'] }, 'content'],
-        sort: ['-publish_date'],
-        limit: 3
-      })
-    );
-    return news;
-  } catch (error) {
-    notFound();
-  }
-}
-
-function convertDateFormat(inputDate:String) {
-  // Split the input date string by '-'
-  var parts = inputDate.split('-');
-  
-  // Create a new Date object with yyyy, mm, dd parts in yyyy-mm-dd format
-  var dateObject = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
-  
-  // Extract day, month, and year from the date object
-  var day = dateObject.getDate();
-  var month = dateObject.getMonth(); // Month is zero-based, so add 1
-  var year = dateObject.getFullYear();
-  
-  // Pad day and month with leading zeros if necessary
-  var monthArray = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
-  
-  // Return the date in dd-MM-yyyy format
-  return day + ' ' + monthArray[month] + ' ' + year;
-}
-
-function removeHtmlTags(input:String) {
-  // Regular expression to match HTML tags
-  var regex = /<[^>]*>/g;
-  
-  // Replace HTML tags with an empty string
-  var tagFreeString =  input.replace(regex, '');
-  return tagFreeString;
-}
 
 export default async function VguToday() {
   const events = await getEvents();

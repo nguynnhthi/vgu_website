@@ -2,7 +2,7 @@ import NavLinks from '@/app/ui/dashboard/nav-links';
 import Link from 'next/link';
 
 import { PowerIcon } from '@heroicons/react/24/outline';
-import VGULogo from '../vgu-logo';
+import VGULogo from '../../components/vgu-logo';
 
 export default function SideNav() {
   return (

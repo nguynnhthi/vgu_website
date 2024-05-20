@@ -1,13 +1,9 @@
-import MainNav from './mainnav';
-import SubNav from './subnav';
+import MainNavServer from './mainnavserver';
 export default function NavBar() {
   return (
     <div className="h-30 flex flex-col justify-between">
       <div>
-        <SubNav />
-      </div>
-      <div>
-        <MainNav />
+        <MainNavServer />
       </div>
     </div>
   );

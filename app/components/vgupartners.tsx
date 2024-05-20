@@ -1,21 +1,8 @@
 import Image from 'next/image';
 import { sans } from '../ui/fonts';
 import directus from '@/lib/directus';
-import { readItem } from '@directus/sdk';
-import { notFound } from 'next/navigation';
+import { getPartnerLogos } from '../lib/utils';
 
-async function getPartnerLogos(block_id: string) {
-  try {
-    const logos = await directus.request(
-      readItem('block_image_slideshow', block_id, {
-        fields: ['images.directus_files_id'],
-      })
-    );
-    return logos;
-  } catch (error) {
-    notFound();
-  }
-}
 
 export default async function VguPartners() {
   const logos = await getPartnerLogos('4867b831-42f6-4fd8-b170-7feb7c294016');

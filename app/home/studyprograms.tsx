@@ -1,22 +1,8 @@
 import Image from 'next/image';
 import { sans } from '../ui/fonts';
 import directus from '@/lib/directus';
-import { readItems } from '@directus/sdk';
-import { notFound } from 'next/navigation';
+import { getStudyPrograms } from '../lib/utils';
 
-async function getStudyPrograms() {
-  try {
-    const studyPrograms = await directus.request(
-      readItems('study_program', {
-        fields: ['name'],
-        sort: ['order'],
-      })
-    );
-    return studyPrograms;
-  } catch (error) {
-    notFound();
-  }
-}
 
 export default async function StudyPrograms() {
   const studyPrograms = await getStudyPrograms();

@@ -1,13 +1,16 @@
 import Image from 'next/image';
+import directus from '@/lib/directus';
+import { getNavigationItems } from '../lib/utils';
 
-export default function Footer() {
+export default async function Footer() {
+  const footerItems = await getNavigationItems('footer');
   return (
     <div>
       <footer className="bg-vgu-darkblue py-8 text-white">
         <div className="mx-auto grid w-8/12 grid-cols-2 place-items-center gap-6 ">
           <div className="w-full flex justify-center">
             <Image
-              src="/vgu-white-logo.jpeg"
+              src={`${directus.url}assets/f8bac02a-c74d-44ca-956c-9f6817f2529b`}
               width={250}
               height={300}
               alt="Placeholder image"
@@ -17,11 +20,9 @@ export default function Footer() {
 
           <div className="text-center md:text-left">
             <div id="links" className="mb-4 flex space-x-1">
-              <a href="">Contact</a>
-              <span>|</span>
-              <a href="">Sitemap</a>
-              <span>|</span>
-              <a href=""> Privacy Policy</a>
+              {footerItems.map((item: any) => (
+                <><a href={item.path}>{item.name}</a><span>|</span></>
+              ))}
             </div>
             <div id="social-icons" className="flex justify-between">
               <div id="facebook-icon">

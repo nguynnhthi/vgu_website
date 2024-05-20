@@ -1,28 +1,8 @@
 import Link from 'next/link';
 import { sans } from '../ui/fonts';
-import directus from '@/lib/directus';
-import { readItems } from '@directus/sdk';
-import { notFound } from 'next/navigation';
+import { getNavigationItems } from '../lib/utils';
 
-async function getNavigationItems(type: string) {
-	try {
-		const navItems = await directus.request(
-			readItems('navigation', {
-				filter: {
-          type: {
-            _eq: type
-          }
-        },
-        fields: ['name', 'path'],
-        sort: ['order'],
-			})
-		);
 
-		return navItems;
-	} catch (error) {
-		notFound();
-	}
-}
 
 export default async function SubNav() {
   const subnav = await getNavigationItems("sub-nav");

@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { sans } from './fonts';
+import { sans } from '../ui/fonts';
 
 export default function VGULogo() {
   return (
